@@ -23,7 +23,7 @@ namespace Azure.ResourceManager.ContainerRegistry
         private RegistriesRestOperations _registriesRestClient;
         private ClientDiagnostics _containerRegistryRegistriesClientDiagnostics;
         private RegistriesRestOperations _containerRegistryRegistriesRestClient;
-        private readonly string _subscriptionId;
+        private Guid _subscriptionId;
 
         /// <summary> Initializes a new instance of the <see cref="TenantResourceExtensionClient"/> class for mocking. </summary>
         protected TenantResourceExtensionClient()
@@ -35,7 +35,7 @@ namespace Azure.ResourceManager.ContainerRegistry
         /// <param name="id"> The identifier of the resource that is the target of operations. </param>
         internal TenantResourceExtensionClient(ArmClient client, ResourceIdentifier id) : base(client, id)
         {
-            _subscriptionId = id.SubscriptionId;
+            _subscriptionId = Guid.Parse(id.SubscriptionId);
         }
 
         private ClientDiagnostics RegistriesClientDiagnostics => _registriesClientDiagnostics ??= new ClientDiagnostics("Azure.ResourceManager.ContainerRegistry", ProviderConstants.DefaultProviderNamespace, Diagnostics);
@@ -74,13 +74,13 @@ namespace Azure.ResourceManager.ContainerRegistry
         /// <param name="subscriptionId"> The ID of the target subscription. The value must be an UUID. </param>
         /// <param name="content"> The object containing information for the availability request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<ContainerRegistryNameAvailableResult>> CheckContainerRegistryNameAvailabilityAsync(Guid subscriptionId, ContainerRegistryNameAvailabilityContent content, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<ContainerRegistryNameAvailableResult>> CheckContainerRegistryNameAvailabilityAsync(string subscriptionId, ContainerRegistryNameAvailabilityContent content, CancellationToken cancellationToken = default)
         {
             using var scope = RegistriesClientDiagnostics.CreateScope("TenantResourceExtensionClient.CheckContainerRegistryNameAvailability");
             scope.Start();
             try
             {
-                var response = await RegistriesRestClient.CheckNameAvailabilityAsync(subscriptionId, content, cancellationToken).ConfigureAwait(false);
+                var response = await RegistriesRestClient.CheckNameAvailabilityAsync(Guid.Parse(subscriptionId), content, cancellationToken).ConfigureAwait(false);
                 return response;
             }
             catch (Exception e)
@@ -106,13 +106,13 @@ namespace Azure.ResourceManager.ContainerRegistry
         /// <param name="subscriptionId"> The ID of the target subscription. The value must be an UUID. </param>
         /// <param name="content"> The object containing information for the availability request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<ContainerRegistryNameAvailableResult> CheckContainerRegistryNameAvailability(Guid subscriptionId, ContainerRegistryNameAvailabilityContent content, CancellationToken cancellationToken = default)
+        public virtual Response<ContainerRegistryNameAvailableResult> CheckContainerRegistryNameAvailability(string subscriptionId, ContainerRegistryNameAvailabilityContent content, CancellationToken cancellationToken = default)
         {
             using var scope = RegistriesClientDiagnostics.CreateScope("TenantResourceExtensionClient.CheckContainerRegistryNameAvailability");
             scope.Start();
             try
             {
-                var response = RegistriesRestClient.CheckNameAvailability(subscriptionId, content, cancellationToken);
+                var response = RegistriesRestClient.CheckNameAvailability(Guid.Parse(subscriptionId), content, cancellationToken);
                 return response;
             }
             catch (Exception e)
@@ -139,8 +139,8 @@ namespace Azure.ResourceManager.ContainerRegistry
         /// <returns> An async collection of <see cref="ContainerRegistryResource" /> that may take multiple service requests to iterate over. </returns>
         public virtual AsyncPageable<ContainerRegistryResource> GetContainerRegistriesAsync(CancellationToken cancellationToken = default)
         {
-            HttpMessage FirstPageRequest(int? pageSizeHint) => ContainerRegistryRegistriesRestClient.CreateListRequest(Guid.Parse(_subscriptionId));
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => ContainerRegistryRegistriesRestClient.CreateListNextPageRequest(nextLink, Guid.Parse(_subscriptionId));
+            HttpMessage FirstPageRequest(int? pageSizeHint) => ContainerRegistryRegistriesRestClient.CreateListRequest(_subscriptionId);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => ContainerRegistryRegistriesRestClient.CreateListNextPageRequest(nextLink, _subscriptionId);
             return PageableHelpers.CreateAsyncPageable(FirstPageRequest, NextPageRequest, e => new ContainerRegistryResource(Client, ContainerRegistryData.DeserializeContainerRegistryData(e)), ContainerRegistryRegistriesClientDiagnostics, Pipeline, "TenantResourceExtensionClient.GetContainerRegistries", "value", "nextLink", cancellationToken);
         }
 
@@ -161,8 +161,8 @@ namespace Azure.ResourceManager.ContainerRegistry
         /// <returns> A collection of <see cref="ContainerRegistryResource" /> that may take multiple service requests to iterate over. </returns>
         public virtual Pageable<ContainerRegistryResource> GetContainerRegistries(CancellationToken cancellationToken = default)
         {
-            HttpMessage FirstPageRequest(int? pageSizeHint) => ContainerRegistryRegistriesRestClient.CreateListRequest(Guid.Parse(_subscriptionId));
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => ContainerRegistryRegistriesRestClient.CreateListNextPageRequest(nextLink, Guid.Parse(_subscriptionId));
+            HttpMessage FirstPageRequest(int? pageSizeHint) => ContainerRegistryRegistriesRestClient.CreateListRequest(_subscriptionId);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => ContainerRegistryRegistriesRestClient.CreateListNextPageRequest(nextLink, _subscriptionId);
             return PageableHelpers.CreatePageable(FirstPageRequest, NextPageRequest, e => new ContainerRegistryResource(Client, ContainerRegistryData.DeserializeContainerRegistryData(e)), ContainerRegistryRegistriesClientDiagnostics, Pipeline, "TenantResourceExtensionClient.GetContainerRegistries", "value", "nextLink", cancellationToken);
         }
     }
