@@ -23,6 +23,7 @@ namespace Azure.ResourceManager.Cdn
         private CdnManagementRestOperations _defaultRestClient;
         private ClientDiagnostics _edgeNodesClientDiagnostics;
         private EdgeNodesRestOperations _edgeNodesRestClient;
+        private Guid _subscriptionId;
 
         /// <summary> Initializes a new instance of the <see cref="TenantResourceExtensionClient"/> class for mocking. </summary>
         protected TenantResourceExtensionClient()
@@ -34,6 +35,7 @@ namespace Azure.ResourceManager.Cdn
         /// <param name="id"> The identifier of the resource that is the target of operations. </param>
         internal TenantResourceExtensionClient(ArmClient client, ResourceIdentifier id) : base(client, id)
         {
+            _subscriptionId = id
         }
 
         private ClientDiagnostics DefaultClientDiagnostics => _defaultClientDiagnostics ??= new ClientDiagnostics("Azure.ResourceManager.Cdn", ProviderConstants.DefaultProviderNamespace, Diagnostics);
