@@ -27,7 +27,7 @@ namespace Azure.ResourceManager.ContainerRegistry
     public partial class ContainerRegistryReplicationResource : ArmResource
     {
         /// <summary> Generate the resource identifier of a <see cref="ContainerRegistryReplicationResource"/> instance. </summary>
-        public static ResourceIdentifier CreateResourceIdentifier(Guid subscriptionId, string resourceGroupName, string registryName, string replicationName)
+        public static ResourceIdentifier CreateResourceIdentifier(string subscriptionId, string resourceGroupName, string registryName, string replicationName)
         {
             var resourceId = $"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}";
             return new ResourceIdentifier(resourceId);

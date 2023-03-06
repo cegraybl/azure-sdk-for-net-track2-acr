@@ -25,7 +25,7 @@ namespace Azure.ResourceManager.ContainerRegistry
     public partial class ImportPipelineResource : ArmResource
     {
         /// <summary> Generate the resource identifier of a <see cref="ImportPipelineResource"/> instance. </summary>
-        public static ResourceIdentifier CreateResourceIdentifier(Guid subscriptionId, string resourceGroupName, string registryName, string importPipelineName)
+        public static ResourceIdentifier CreateResourceIdentifier(string subscriptionId, string resourceGroupName, string registryName, string importPipelineName)
         {
             var resourceId = $"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}";
             return new ResourceIdentifier(resourceId);

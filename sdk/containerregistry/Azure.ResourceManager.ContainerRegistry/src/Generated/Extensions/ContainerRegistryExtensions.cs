@@ -35,11 +35,30 @@ namespace Azure.ResourceManager.ContainerRegistry
         /// <exception cref="ArgumentException"> <paramref name="resourceGroupName"/> is an empty string, and was expected to be non-empty. </exception>
         /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> is null. </exception>
         /// <returns> An object representing collection of ContainerRegistryResources and their operations over a ContainerRegistryResource. </returns>
-        public static ContainerRegistryCollection GetContainerRegistries(this TenantResource tenantResource, Guid subscriptionId, string resourceGroupName)
+        public static ContainerRegistryCollection GetContainerRegistries(this TenantResource tenantResource, string subscriptionId, string resourceGroupName)
         {
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
 
-            return GetExtensionClient(tenantResource).GetContainerRegistries(subscriptionId, resourceGroupName);
+            return GetExtensionClient(tenantResource).GetContainerRegistries(Guid.Parse(subscriptionId), resourceGroupName);
+        }
+
+        /// <summary> Gets a collection of ContainerRegistryResources in the TenantResource. </summary>
+        /// <param name="subscriptionResource"> The <see cref="SubscriptionResource" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken">  </param>
+        /// <returns> An object representing collection of ContainerRegistryResources and their operations over a ContainerRegistryResource. </returns>
+        public static Pageable<ContainerRegistryResource> GetContainerRegistries(this SubscriptionResource subscriptionResource, CancellationToken cancellationToken = default)
+        {
+            //return tenantResource.GetContainerRegistries(subscriptionId, resourceGroupName).Get(registryName, cancellationToken);
+            return null;
+        }
+
+        /// <summary> Gets a collection of ContainerRegistryResources in the TenantResource. </summary>
+        /// <param name="resourceGroupResource"> The <see cref="ResourceGroupResource" /> instance the method will execute against. </param>
+        /// <returns> An object representing collection of ContainerRegistryResources and their operations over a ContainerRegistryResource. </returns>
+        public static ContainerRegistryCollection GetContainerRegistries(this ResourceGroupResource resourceGroupResource)
+        {
+            //return tenantResource.GetContainerRegistries(subscriptionId, resourceGroupName).Get(registryName, cancellationToken);
+            return null;
         }
 
         /// <summary>
@@ -63,7 +82,7 @@ namespace Azure.ResourceManager.ContainerRegistry
         /// <exception cref="ArgumentException"> <paramref name="resourceGroupName"/> or <paramref name="registryName"/> is an empty string, and was expected to be non-empty. </exception>
         /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="registryName"/> is null. </exception>
         [ForwardsClientCalls]
-        public static async Task<Response<ContainerRegistryResource>> GetContainerRegistryAsync(this TenantResource tenantResource, Guid subscriptionId, string resourceGroupName, string registryName, CancellationToken cancellationToken = default)
+        public static async Task<Response<ContainerRegistryResource>> GetContainerRegistryAsync(this TenantResource tenantResource, string subscriptionId, string resourceGroupName, string registryName, CancellationToken cancellationToken = default)
         {
             return await tenantResource.GetContainerRegistries(subscriptionId, resourceGroupName).GetAsync(registryName, cancellationToken).ConfigureAwait(false);
         }
@@ -81,6 +100,30 @@ namespace Azure.ResourceManager.ContainerRegistry
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="resourceGroupResource"> The <see cref="ResourceGroupResource" /> instance the method will execute against. </param>
+        /// <param name="registryName"> The name of the container registry. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        [ForwardsClientCalls]
+        public static async Task<Response<ContainerRegistryResource>> GetContainerRegistryAsync(this ResourceGroupResource resourceGroupResource, string registryName, CancellationToken cancellationToken = default)
+        {
+            //return await tenantResource.GetContainerRegistries(subscriptionId, resourceGroupName).GetAsync(registryName, cancellationToken).ConfigureAwait(false);
+            await Task.Delay(0).ConfigureAwait(false);
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the properties of the specified container registry.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>Registries_Get</description>
+        /// </item>
+        /// </list>
+        /// </summary>
         /// <param name="tenantResource"> The <see cref="TenantResource" /> instance the method will execute against. </param>
         /// <param name="subscriptionId"> The ID of the target subscription. The value must be an UUID. </param>
         /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
@@ -89,9 +132,54 @@ namespace Azure.ResourceManager.ContainerRegistry
         /// <exception cref="ArgumentException"> <paramref name="resourceGroupName"/> or <paramref name="registryName"/> is an empty string, and was expected to be non-empty. </exception>
         /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="registryName"/> is null. </exception>
         [ForwardsClientCalls]
-        public static Response<ContainerRegistryResource> GetContainerRegistry(this TenantResource tenantResource, Guid subscriptionId, string resourceGroupName, string registryName, CancellationToken cancellationToken = default)
+        public static Response<ContainerRegistryResource> GetContainerRegistry(this TenantResource tenantResource, string subscriptionId, string resourceGroupName, string registryName, CancellationToken cancellationToken = default)
         {
             return tenantResource.GetContainerRegistries(subscriptionId, resourceGroupName).Get(registryName, cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets the properties of the specified container registry.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>Registries_Get</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="resourceGroupResource"> The <see cref="ResourceGroupResource" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        [ForwardsClientCalls]
+        public static Response<ContainerRegistryResource> GetContainerRegistry(this ResourceGroupResource resourceGroupResource, CancellationToken cancellationToken = default)
+        {
+            //return tenantResource.GetContainerRegistries(subscriptionId, resourceGroupName).Get(registryName, cancellationToken);
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the properties of the specified container registry.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>Registries_Get</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="resourceGroupResource"> The <see cref="ResourceGroupResource" /> instance the method will execute against. </param>
+        /// <param name="registryName"> The name of the container registry. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        [ForwardsClientCalls]
+        public static Response<ContainerRegistryResource> GetContainerRegistry(this ResourceGroupResource resourceGroupResource, string registryName, CancellationToken cancellationToken = default)
+        {
+            //return tenantResource.GetContainerRegistries(subscriptionId, resourceGroupName).Get(registryName, cancellationToken);
+            return null;
         }
 
         /// <summary>
@@ -132,6 +220,33 @@ namespace Azure.ResourceManager.ContainerRegistry
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="subscriptionResource"> The <see cref="SubscriptionResource" /> instance the method will execute against. </param>
+        /// <param name="content"> The object containing information for the availability request. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
+        public static async Task<Response<ContainerRegistryNameAvailableResult>> CheckContainerRegistryNameAvailabilityAsync(this SubscriptionResource subscriptionResource, ContainerRegistryNameAvailabilityContent content, CancellationToken cancellationToken = default)
+        {
+            Argument.AssertNotNull(content, nameof(content));
+            //cegraybl - check how we can generate this
+            //return await GetExtensionClient(tenantResource).CheckContainerRegistryNameAvailabilityAsync(subscriptionId, content, cancellationToken).ConfigureAwait(false);
+            await Task.Delay(0).ConfigureAwait(false);
+
+            return null;
+        }
+
+        /// <summary>
+        /// Checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/checkNameAvailability</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>Registries_CheckNameAvailability</description>
+        /// </item>
+        /// </list>
+        /// </summary>
         /// <param name="tenantResource"> The <see cref="TenantResource" /> instance the method will execute against. </param>
         /// <param name="subscriptionId"> The ID of the target subscription. The value must be an UUID. </param>
         /// <param name="content"> The object containing information for the availability request. </param>
@@ -142,6 +257,31 @@ namespace Azure.ResourceManager.ContainerRegistry
             Argument.AssertNotNull(content, nameof(content));
 
             return GetExtensionClient(tenantResource).CheckContainerRegistryNameAvailability(subscriptionId, content, cancellationToken);
+        }
+
+        /// <summary>
+        /// Checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/checkNameAvailability</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>Registries_CheckNameAvailability</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="subscriptionResource"> The <see cref="SubscriptionResource" /> instance the method will execute against. </param>
+        /// <param name="content"> The object containing information for the availability request. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
+        public static Response<ContainerRegistryNameAvailableResult> CheckContainerRegistryNameAvailability(this SubscriptionResource subscriptionResource, ContainerRegistryNameAvailabilityContent content, CancellationToken cancellationToken = default)
+        {
+            Argument.AssertNotNull(content, nameof(content));
+            //cegraybl - check how we can generate this
+            //return GetExtensionClient(tenantResource).CheckContainerRegistryNameAvailability(subscriptionId, content, cancellationToken);
+            return null;
         }
 
         /// <summary>
@@ -178,6 +318,29 @@ namespace Azure.ResourceManager.ContainerRegistry
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="subscriptionResource"> The <see cref="SubscriptionResource" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <returns> An async collection of <see cref="ContainerRegistryResource" /> that may take multiple service requests to iterate over. </returns>
+        public static AsyncPageable<ContainerRegistryResource> GetContainerRegistriesAsync(this SubscriptionResource subscriptionResource, CancellationToken cancellationToken = default)
+        {
+            //cegraybl - check how we can generate this
+            //return GetExtensionClient(tenantResource).GetContainerRegistriesAsync(cancellationToken);
+            return null;
+        }
+
+        /// <summary>
+        /// Lists all the container registries under the specified subscription.
+        /// <list type="bullet">
+        /// <item>
+        /// <term>Request Path</term>
+        /// <description>/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/registries</description>
+        /// </item>
+        /// <item>
+        /// <term>Operation Id</term>
+        /// <description>Registries_List</description>
+        /// </item>
+        /// </list>
+        /// </summary>
         /// <param name="tenantResource"> The <see cref="TenantResource" /> instance the method will execute against. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <returns> A collection of <see cref="ContainerRegistryResource" /> that may take multiple service requests to iterate over. </returns>
@@ -185,6 +348,7 @@ namespace Azure.ResourceManager.ContainerRegistry
         {
             return GetExtensionClient(tenantResource).GetContainerRegistries(cancellationToken);
         }
+
 
         #region CacheRuleResource
         /// <summary>
@@ -507,6 +671,6 @@ namespace Azure.ResourceManager.ContainerRegistry
             }
             );
         }
-        #endregion
     }
+        #endregion
 }

@@ -1,5 +1,18 @@
 # Release History
 
+## 1.1.0-beta.5 (Unreleased)
+
+### Features Added
+
+- Added operation group CacheRulesOperations
+- Added operation group CredentialSetsOperations
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.1.0-beta.4 (Unreleased)
 
 ### Features Added
